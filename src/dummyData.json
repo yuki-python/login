@@ -1,0 +1,38 @@
+[
+  {
+    "id": "admin",
+    "password": "1234",
+    "group": "A",
+    "permissions": ["view_reports", "edit_users"]
+  },
+  {
+    "id": "user1",
+    "password": "abcd",
+    "group": "A",
+    "permissions": ["view_reports"]
+  },
+  {
+    "id": "user2",
+    "password": "efgh",
+    "group": "B",
+    "permissions": ["view_dashboard"]
+  },
+  {
+    "id": "user3",
+    "password": "ijkl",
+    "group": "B",
+    "permissions": ["view_dashboard", "edit_profile"]
+  },
+  {
+    "id": "user4",
+    "password": "mnop",
+    "group": "C",
+    "permissions": ["manage_settings"]
+  },
+  {
+    "id": "guest",
+    "password": "guest",
+    "group": "common",
+    "permissions": ["view_help"]
+  }
+]
