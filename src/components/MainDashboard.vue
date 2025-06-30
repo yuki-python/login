@@ -1,17 +1,18 @@
 <template>
-  <div class="dashboard">
+  <div v-if="user">
     <h2>ダッシュボード</h2>
     <div class="button-grid">
-      <!-- 固定された5つのボタン -->
       <button
         v-for="(button, index) in buttons"
         :key="index"
-        :disabled="!userPermissions.includes(button.permission)"
         @click="handleButtonClick(button.label)"
       >
         {{ button.label }}
       </button>
     </div>
+  </div>
+  <div v-else>
+    <p>ログインが必要です。<a @click="redirectToLogin">ログイン画面へ</a></p>
   </div>
 </template>
 
@@ -20,26 +21,28 @@ export default {
   name: 'MainDashboard',
   data() {
     return {
-      user: JSON.parse(sessionStorage.getItem("user")), // ログイン時のユーザー情報を取得
+      user: JSON.parse(sessionStorage.getItem('user')) || null, // セッションからユーザー情報を取得
       buttons: [
-        { label: 'レポートを見る', permission: 'view_reports' },
-        { label: 'ユーザーを編集', permission: 'edit_users' },
-        { label: 'ダッシュボードを見る', permission: 'view_dashboard' },
-        { label: 'プロフィール編集', permission: 'edit_profile' },
-        { label: '設定を管理', permission: 'manage_settings' },
-      ]
+        { label: 'レポートを見る' },
+        { label: 'ユーザーを編集' },
+        { label: 'ダッシュボードを見る' },
+        { label: 'プロフィール編集' },
+        { label: '設定を管理' },
+      ],
     };
-  },
-  computed: {
-    userPermissions() {
-      // ユーザーの権限リストを返す
-      return this.user.permissions;
-    },
   },
   methods: {
     handleButtonClick(label) {
-      alert(`${label} ボタンが押されました！`); // ボタンが押された時の動作
+      console.log(`${label} ボタンが押されました！`);
     },
+    redirectToLogin() {
+      this.$router.push('/'); // ログイン画面へリダイレクト
+    },
+  },
+  mounted() {
+    if (!this.user) {
+      this.redirectToLogin(); // ユーザーがログインしていなければリダイレクト
+    }
   },
 };
 </script>
@@ -63,11 +66,7 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
-button:disabled {
-  background-color: #d6d6d6;
-  cursor: not-allowed;
-}
-button:hover:not(:disabled) {
+button:hover {
   background-color: #0056b3;
 }
 </style>
